@@ -8,3 +8,34 @@
     background-size: 360px;
     background-position: right bottom;
 }
+.task{
+    border: none;
+   margin-bottom: 2px;
+    text-align: left;
+    display: flex;
+    padding: 10px;
+}
+.icon{
+    width: 5%;
+}
+.task-content-date{
+    color: rgb(117, 117, 117);
+}
+.task-content-content{
+    color: rgb(53, 52, 52);
+    margin-bottom: 5px;
+}
+.high {
+    background-color: #0077b6;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 5px;
+}
+.bug , .feature{
+    background-color: rgb(203, 201, 201);
+    padding: 4px 8px;
+    border-radius: 5px;
+}
+.status{
+    margin-bottom: 5px;
+}
