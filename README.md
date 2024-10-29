@@ -1,4 +1,3 @@
-# YoucodeScrum-Board-Application-de-Gestion-des-T-ches-en-JavaScript-Vanilla
 # YoucodeScrum - Gestion de Tâches Scrum Board
 
 ## Description
