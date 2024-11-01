@@ -7,7 +7,9 @@
     background: url(../img/cover/cover-scrum-board.png) no-repeat fixed;
     background-size: 360px;
     background-position: right bottom;
+   
 }
+
 .task{
     border: none;
    margin-bottom: 2px;
@@ -38,4 +40,30 @@
 }
 .status{
     margin-bottom: 5px;
+}
+.task-modal{
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+}
+.task-modal-chow{
+    display: block;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    background-color:rgba(0, 0, 0, 0.692);
+    
+}
+.button-hide{
+    display: none;
+   
+}
+.button-show{
+    display: block;
+  
 }
