@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const myAddButton = document.getElementById('add-task');
+    const allTasks = document.querySelector('.row');
     const toDoTasks = document.getElementById('to-do-tasks');
     const progressTasks = document.getElementById('in-progress-tasks');
     const doneTasks = document.getElementById('done-tasks');
@@ -57,18 +58,31 @@ document.addEventListener('DOMContentLoaded', () => {
       return task;
     }
     
-    // function reviewTasks(task) {
-    //             showModel();
-    //             showButtons();
-    //             titleTask.value= task.title,
+    function reviewTasks(taskId) {
+        const task = tasks.find(task => task.id == taskId);
+         
+                titleTask.value= task.title;
+                if(task.typeTask === 'Feature'){
+                    typeTaskFeature.checked=true
+                }else{
+                    typeTaskBug.checked=true
+                }
                 
-    //             priorityTask.value=TasksButton.priority,
-    //             statusTask.value=TasksButton.status,
-    //             dateTask.value=TasksButton.date,
-    //             descrpTask.value=TasksButton.descrp
+                priorityTask.value=task.priority;
+                statusTask.value=task.status;
+                dateTask.value=task.date;
+                descrpTask.value=task.descrp;
             
-    //  }
-    //   //const TasksButton = document.querySelector('.task');
+     }
+     function deletetasks(taskId){
+        const itemToRemove=tasks.findIndex(task => task.id == taskId)
+        tasks.splice(itemToRemove,itemToRemove+1);
+        const task=document.getElementById(taskId)
+        task.parentNode.removeChild(task);
+     }
+     function updatetasks(taskId){
+        
+     }
    
 
     function clearData() {
@@ -89,12 +103,14 @@ document.addEventListener('DOMContentLoaded', () => {
     cancelButton.addEventListener('click', (event) => {
       event.preventDefault();
       hideModel();
+      clearData();
       
     });
   
     closeIcon.addEventListener('click', (event) => {
         event.preventDefault();
         hideModel();
+        clearData();
     });
   
     
@@ -110,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
       tasks.push(task);
       if(task.status ==='To Do'){
       toDoTasks.innerHTML += `
-        <button class="task" id="${count}" onclick="reviewTasks(task)">
+        <button class="task" id="${count}" >
           <div class="icon">
             <i class="fa-regular fa-circle-question" style="color: #47c266;"></i>
           </div>
@@ -172,8 +188,47 @@ document.addEventListener('DOMContentLoaded', () => {
       hideModel();
       clearData();
       
+      Swal.fire({
+        title: 'Added',
+        text: "the task is added",
+        icon: 'success',
+        confirmButtonText: 'OK!'
+    })
+      
     });
-  
+    allTasks.addEventListener('click', (event) => { 
+        if (event.target.closest('.task')) { 
+            const taskId = event.target.closest('.task').id;
+            showModel();
+            showButtons();
+            reviewTasks(taskId); 
+        
+            deleteButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                deletetasks(taskId);
+                hideModel();
+                clearData();
+                Swal.fire({
+                    title: 'Delete',
+                    text: "the task is Deleted",
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                })
+            });
+            updateButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                updatetasks(taskId);
+                hideModel();
+                clearData();
+                Swal.fire({
+                    title: 'updated',
+                    text: "the task is updated",
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                })
+            });
+        }
+    });
    
     });
   
