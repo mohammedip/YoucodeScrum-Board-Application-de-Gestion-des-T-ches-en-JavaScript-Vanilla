@@ -19,9 +19,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const descrpTask = document.getElementById('task-description');
     let count=0;
     let tasks =[];
+    tasks=JSON.parse(localStorage.getItem("tasks"))||[];
+    
+    getTask(tasks);
 
 
 
+    function getTask(tasks){
+      if(!(tasks.length === 0)){
+        count=tasks[tasks.length-1].count;
+        tasks.forEach(task=>{
+          addHtml(task)
+        });
+      }
+    }
     function showModel() {
       model.classList.remove('task-modal');
       model.classList.add('task-modal-chow');
@@ -47,7 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
   
     function addTasks() {
       const task = {
-        id:count,
+        id:Date.now().toString(),
+        count:count,
         title: titleTask.value,
         typeTask: typeTaskFeature.checked ? typeTaskFeature.value : typeTaskBug.value,
         priority: priorityTask.value,
@@ -56,6 +68,70 @@ document.addEventListener('DOMContentLoaded', () => {
         descrp: descrpTask.value
       };
       return task;
+    }
+
+    function addHtml(task){
+      if(task.status ==='To Do'){
+        toDoTasks.innerHTML += `
+          <button class="task" id="${task.id}" >
+            <div class="icon">
+              <i class="fa-regular fa-circle-question" style="color: #47c266;"></i>
+            </div>
+            <div class="task-content">
+              <div class="task-content-title">
+                <h5>${task.title}</h5>
+              </div>
+              <div>
+                <div class="task-content-date">#${task.count} created in ${task.date}</div>
+                <div class="task-content-content">${task.descrp}</div>
+              </div>
+              <div class="status">
+                <span class="high">${task.priority}</span>
+                <span class="bug-feature">${task.typeTask}</span>
+              </div>
+            </div>
+          </button>
+        `;}else if(task.status ==='In Progress'){
+          progressTasks.innerHTML += `
+            <button class="task" id="${task.id}">
+              <div class="icon">
+                      <i class="fa-solid fa-circle-notch fa-rotate-90" style="color: #47c266;"></i>
+              </div>
+              <div class="task-content">
+                <div class="task-content-title">
+                  <h5>${task.title}</h5>
+                </div>
+                <div>
+                  <div class="task-content-date">#${task.count} created in ${task.date}</div>
+                  <div class="task-content-content">${task.descrp}</div>
+                </div>
+                <div class="status">
+                  <span class="high">${task.priority}</span>
+                  <span class="bug-feature">${task.typeTask}</span>
+                </div>
+              </div>
+            </button>
+          `;}else if(task.status ==='Done'){
+              doneTasks.innerHTML += `
+                <button class="task" id="${task.id}">
+                  <div class="icon">
+                    <i class="fa-regular fa-circle-check" style="color: #47c266;"></i>
+                  </div>
+                  <div class="task-content">
+                    <div class="task-content-title">
+                      <h5>${task.title}</h5>
+                    </div>
+                    <div>
+                      <div class="task-content-date">#${task.count} created in ${task.date}</div>
+                      <div class="task-content-content">${task.descrp}</div>
+                    </div>
+                    <div class="status">
+                      <span class="high">${task.priority}</span>
+                      <span class="bug-feature">${task.typeTask}</span>
+                    </div>
+                  </div>
+                </button>
+              `;}
     }
     
     function reviewTasks(taskId) {
@@ -77,13 +153,14 @@ document.addEventListener('DOMContentLoaded', () => {
      function deletetasks(taskId){
         const itemToRemove=tasks.findIndex(task => task.id == taskId)
         tasks.splice(itemToRemove,itemToRemove+1);
+        localStorage.setItem("tasks",JSON.stringify(tasks));
         const task=document.getElementById(taskId)
         task.parentNode.removeChild(task);
      }
      function updatetasks(taskId){
         
+        
      }
-   
 
     function clearData() {
       titleTask.value = '';
@@ -121,70 +198,11 @@ document.addEventListener('DOMContentLoaded', () => {
     saveButton.addEventListener('click', (event) => {
       event.preventDefault();
       const task = addTasks();
-      count+=1;
-      task.id=count;
+      count+=1; 
+      task.count=count;
       tasks.push(task);
-      if(task.status ==='To Do'){
-      toDoTasks.innerHTML += `
-        <button class="task" id="${count}" >
-          <div class="icon">
-            <i class="fa-regular fa-circle-question" style="color: #47c266;"></i>
-          </div>
-          <div class="task-content">
-            <div class="task-content-title">
-              <h5>${task.title}</h5>
-            </div>
-            <div>
-              <div class="task-content-date">#${count} created in ${task.date}</div>
-              <div class="task-content-content">${task.descrp}</div>
-            </div>
-            <div class="status">
-              <span class="high">${task.priority}</span>
-              <span class="bug-feature">${task.typeTask}</span>
-            </div>
-          </div>
-        </button>
-      `;}else if(task.status ==='In Progress'){
-        progressTasks.innerHTML += `
-          <button class="task" id="${count}">
-            <div class="icon">
-                    <i class="fa-solid fa-circle-notch fa-rotate-90" style="color: #47c266;"></i>
-            </div>
-            <div class="task-content">
-              <div class="task-content-title">
-                <h5>${task.title}</h5>
-              </div>
-              <div>
-                <div class="task-content-date">#${count} created in ${task.date}</div>
-                <div class="task-content-content">${task.descrp}</div>
-              </div>
-              <div class="status">
-                <span class="high">${task.priority}</span>
-                <span class="bug-feature">${task.typeTask}</span>
-              </div>
-            </div>
-          </button>
-        `;}else if(task.status ==='Done'){
-            doneTasks.innerHTML += `
-              <button class="task" id="${count}">
-                <div class="icon">
-                  <i class="fa-regular fa-circle-check" style="color: #47c266;"></i>
-                </div>
-                <div class="task-content">
-                  <div class="task-content-title">
-                    <h5>${task.title}</h5>
-                  </div>
-                  <div>
-                    <div class="task-content-date">#${count} created in ${task.date}</div>
-                    <div class="task-content-content">${task.descrp}</div>
-                  </div>
-                  <div class="status">
-                    <span class="high">${task.priority}</span>
-                    <span class="bug-feature">${task.typeTask}</span>
-                  </div>
-                </div>
-              </button>
-            `;}
+      localStorage.setItem("tasks",JSON.stringify(tasks));
+      addHtml(task)
       hideModel();
       clearData();
       
@@ -194,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
         icon: 'success',
         confirmButtonText: 'OK!'
     })
-      
+    
     });
     allTasks.addEventListener('click', (event) => { 
         if (event.target.closest('.task')) { 
@@ -218,6 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
             updateButton.addEventListener('click', (event) => {
                 event.preventDefault();
                 updatetasks(taskId);
+                localStorage.setItem("tasks",JSON.stringify(tasks));
                 hideModel();
                 clearData();
                 Swal.fire({
