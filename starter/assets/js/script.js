@@ -54,6 +54,14 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function addTasks() {
+    if (titleTask.value === ""  ||descrpTask.value === ""||  priorityTask.value === "Please select" || statusTask.value === "Please select") {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Please fill in all required fields!",
+      });
+      return;
+    }else{
     const task = {
       id: Date.now().toString(),
       count: count,
@@ -67,7 +75,10 @@ document.addEventListener("DOMContentLoaded", () => {
       descrp: descrpTask.value,
     };
     return task;
-  }
+  }}
+ 
+
+
   // function fetchTasks(taskId) {
   //   let task = tasks.find((task) => task.id == taskId);
   //   task = {
@@ -210,6 +221,7 @@ document.addEventListener("DOMContentLoaded", () => {
   myAddButton.addEventListener("click", () => {
     showModel();
     hideButtons();
+   
   });
 
   cancelButton.addEventListener("click", (event) => {
