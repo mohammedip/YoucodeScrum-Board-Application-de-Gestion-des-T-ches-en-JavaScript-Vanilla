@@ -212,8 +212,8 @@ document.addEventListener("DOMContentLoaded", () => {
     titleTask.value = "";
     typeTaskFeature.checked = false;
     typeTaskBug.checked = false;
-    priorityTask.value = "";
-    statusTask.value = "";
+    priorityTask.value = "Please select";
+    statusTask.value = "Please select";
     dateTask.value = "";
     descrpTask.value = "";
   }
