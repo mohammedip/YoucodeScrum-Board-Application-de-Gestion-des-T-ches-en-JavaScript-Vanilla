@@ -16,6 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const priorityTask = document.getElementById("task-priority");
   const statusTask = document.getElementById("task-status");
   const dateTask = document.getElementById("task-date");
+  dateTask.valueAsDate = new Date();
+
   const descrpTask = document.getElementById("task-description");
   let count = 0;
   let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
